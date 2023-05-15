@@ -1,0 +1,43 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "WhackAMole",
+            "request": "launch",
+            "mainClass": "WhackAMole",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
+            "name": "DisplayingText",
+            "request": "launch",
+            "mainClass": "DisplayingText",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
+            "name": "JavafxSample",
+            "request": "launch",
+            "mainClass": "JavafxSample",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "whackamole",
+            "request": "launch",
+            "vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-20.0.1\\lib\" --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "whackamole",
+            "projectName": "whack-a-mole-game_1e011953"
+        }
+    ]
+}
