@@ -40,7 +40,15 @@ public class whackamole extends Application {
         btn.setPrefHeight(50);
 
         // Apply CSS styles
-        btn.setStyle("-fx-font-size: 20px; -fx-background-color: #ff0000; -fx-text-fill: #ffffff;");
+        btn.setStyle("-fx-font-size: 20px; -fx-background-color: #ff0000; -fx-text-fill: #ffffff; -fx-effect:dropshadow(one-pass-box,black,10,10.10,2,0);");
+
+        Button closeButton = new Button("Quit Game");
+        closeButton.setOnAction(event -> stage.close());
+        closeButton.setPrefWidth(200);
+        closeButton.setPrefHeight(50);
+
+        // Apply CSS styles
+        closeButton.setStyle("-fx-font-size: 20px; -fx-background-color: #ff0000; -fx-text-fill: #ffffff; -fx-effect:dropshadow(one-pass-box,black,10,10.10,2,0);");
 
 
         // Setting font to the text
@@ -55,7 +63,7 @@ public class whackamole extends Application {
         root.setSpacing(20);
 
         // Adding the elements to the VBox
-        root.getChildren().addAll(text, btn);
+        root.getChildren().addAll(text, btn, closeButton);
 
         imageView.fitWidthProperty().bind(stage.widthProperty());
         imageView.fitHeightProperty().bind(stage.heightProperty());
@@ -64,7 +72,7 @@ public class whackamole extends Application {
         stackPane.getChildren().addAll(imageView, root);
         // Creating a scene object
         Scene scene = new Scene(stackPane);
-        
+
         scene.getRoot().setStyle("-fx-background-color: brown;");
 
         // Setting title to the Stage
@@ -81,4 +89,3 @@ public class whackamole extends Application {
         launch(args);
     }
 }
-
