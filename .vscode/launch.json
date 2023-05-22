@@ -6,6 +6,41 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ThreeDCircleExample",
+            "request": "launch",
+            "mainClass": "ThreeDCircleExample",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
+            "name": "WhackAMoleGameyyy",
+            "request": "launch",
+            "mainClass": "WhackAMoleGameyyy",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
+            "name": "WhackAMoleGame",
+            "request": "launch",
+            "mainClass": "WhackAMoleGame",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
+            "name": "ButtonAlignmentExample",
+            "request": "launch",
+            "mainClass": "ButtonAlignmentExample",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
+            "name": "SceneNavigationExample",
+            "request": "launch",
+            "mainClass": "SceneNavigationExample",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
             "name": "WhackAMole",
             "request": "launch",
             "mainClass": "WhackAMole",
