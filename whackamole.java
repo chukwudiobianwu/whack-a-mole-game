@@ -18,7 +18,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import java.util.Random;
-import javafx.scene.transform.Rotate;
+import javafx.event.EventHandler;
+
 
 public class whackamole extends Application {
     private Stage primaryStage;
@@ -26,15 +27,15 @@ public class whackamole extends Application {
     private ImageView imageView;
     private StackPane stackPane;
     private static final int BOARD_SIZE = 4; // Adjust this to change the board size
-    private static final int CELL_SIZE = 100; // Adjust this to change the cell size
+    private int scorecount; // Adjust this to change the cell size
 
     private static final int MOLE_APPEAR_TIME = 1000; // Adjust this to change mole appearance time (in milliseconds)
-    private static final int MOLE_DISAPPEAR_TIME = 500; // Adjust this to change mole disappearance time (in milliseconds)
+    private static final int MOLE_DISAPPEAR_TIME = 50000; // Adjust this to change mole disappearance time (in milliseconds)
 
     private ImageView [][] moles;
     private Rectangle inrect = new Rectangle();
     private Rectangle rect = new Rectangle();
-
+    Image img = new Image("wmole.png");
     Random ran;
 
     @Override
@@ -122,6 +123,8 @@ public class whackamole extends Application {
         hard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             stackPane.getChildren().setAll(setBoardAndMoles()); // Pass board size as argument
         });
+
+
         startMoleAnimation();
         scene = new Scene(stackPane);
         scene.getRoot().setStyle("-fx-background-color: brown;");
@@ -176,7 +179,7 @@ public class whackamole extends Application {
 
                 ellipse.radiusXProperty().bind(inrect.widthProperty().multiply(0.1));
                 ellipse.radiusYProperty().bind(inrect.heightProperty().multiply(0.1));
-    
+                
                 // Reduce gaps around the border and edge of the rectangl
             }
         }
@@ -184,23 +187,31 @@ public class whackamole extends Application {
 
         moles = new ImageView[4][4];
         ran = new Random();
-
-        Image moleImage = new Image("wmole.png");
+        Text sCORE = new Text();  
+        Image moleImage = img;
 
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 ImageView holeImageView = new ImageView(moleImage);
+
                 // holeImageView.setFitWidth(inrect.getHeight() / 4 - (inrect.getHeight() / 4 * 0.1));
                 // holeImageView.setFitHeight((inrect.getHeight() / 4 - (inrect.getHeight() / 4 * 0.1))/2);
                 holeImageView.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-border-style: solid; -fx-max-width: 100%;");
                 holeImageView.fitWidthProperty().bind(inrect.widthProperty().multiply(0.25).subtract(inrect.widthProperty().multiply(0.056)));
                 holeImageView.fitHeightProperty().bind(inrect.heightProperty().multiply(0.36).subtract(inrect.heightProperty().multiply(0.03)).divide(2));
-                GridPane.setMargin(holeImageView, new Insets(0, 0,0 , 8));
-                gridPane.add(holeImageView, col, row);
-                moles[row][col] = holeImageView;
+                
+               
+                
 
+                 moles[row][col] = holeImageView;
+                 gridPane.add(holeImageView, col, row); 
+                    GridPane.setMargin(holeImageView, new Insets(0, 0,0 , 8));
             }
         }
+
+
+        
+        root5.getChildren().add(sCORE);
         stackPane.getChildren().addAll(gridPane,gridP);
     
         return stackPane;
@@ -216,6 +227,7 @@ public class whackamole extends Application {
             int randomCol = ran.nextInt(BOARD_SIZE);
             ImageView moleImageView = moles[randomRow][randomCol];
             moleImageView.setOpacity(1.0); // Make the mole visible
+            
         });
 
         KeyFrame disappearFrame = new KeyFrame(Duration.millis(MOLE_APPEAR_TIME + MOLE_DISAPPEAR_TIME), event -> {
@@ -226,9 +238,11 @@ public class whackamole extends Application {
             }
         });
 
+
         timeline.getKeyFrames().addAll(appearFrame, disappearFrame);
         timeline.play();
         }
+
 
 
     public static void main(String[] args) {
