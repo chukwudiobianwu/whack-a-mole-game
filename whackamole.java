@@ -21,7 +21,6 @@ import javafx.util.Duration;
 import java.util.Random;
 import javafx.scene.layout.AnchorPane;
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
 
 
 public class whackamole extends Application {
@@ -37,6 +36,7 @@ public class whackamole extends Application {
     private int MOLE_DISAPPEAR_TIME = 1000; // Adjust this to change mole disappearance time (in milliseconds)
 
     private Timeline timeline = new Timeline();
+    private Timeline timeli = new Timeline();
     private Text won = new Text("Congratulations!, You Won!");
     private Text lost = new Text("Sorry!, You Lost");
     private Button replay = new Button("Play Again");
@@ -158,22 +158,25 @@ public class whackamole extends Application {
             
             MOLE_APPEAR_TIME = 800;
             MOLE_DISAPPEAR_TIME = 800; 
-            stackPane.getChildren().setAll(setBoardAndMoles()); // Pass board size as argument
             startMoleAnimation();
+            stackPane.getChildren().setAll(setBoardAndMoles()); // Pass board size as argument
+            
         });
 
         medium.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             MOLE_APPEAR_TIME = 740;
             MOLE_DISAPPEAR_TIME = 740; 
+            startMoleAnimation();
             stackPane.getChildren().setAll(setBoardAndMoles());// Pass board size as argument
-            startMoleAnimation(); 
+             
         });
 
         hard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             MOLE_APPEAR_TIME = 500;
             MOLE_DISAPPEAR_TIME = 500; // Pass board size as argument
-            stackPane.getChildren().setAll(setBoardAndMoles()); 
             startMoleAnimation();
+            stackPane.getChildren().setAll(setBoardAndMoles()); 
+            
         });
 
         scene = new Scene(stackPane);
@@ -252,7 +255,9 @@ public class whackamole extends Application {
         backbBut.setOnMouseClicked( event -> {
             Difficultymenue(imageView, root3);
             scorecount = 0;
-            seconds = 20;
+            seconds = 60;
+            timeline.playFromStart();
+            timeli.playFromStart();
         });
 
         VBox bom = new VBox(tim);
@@ -318,9 +323,10 @@ public class whackamole extends Application {
                         if (moles[finalRow][finalCol].getOpacity() == 1.0) {
                             scorecount++;  
                             sCORE.setText("Score: " + scorecount + "/20");
-                            progressBar.setProgress(scorecount / 20.0);
+                            progressBar.setProgress(scorecount / 21.0);
                             if (scorecount == 20 ){
                                 timeline.stop();
+                                timeli.stop();
                             }
                             holeImageView.setOpacity(0.0);
 
@@ -342,7 +348,11 @@ public class whackamole extends Application {
     
 
     private void startMoleAnimation() {
-        Timeline timeli = new Timeline();
+        timeline.stop();
+        timeline.getKeyFrames().clear();
+        timeli.stop();
+        timeli.getKeyFrames().clear();
+        
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeli.setCycleCount(Timeline.INDEFINITE);
 
@@ -360,7 +370,7 @@ public class whackamole extends Application {
         lost.setFill(Color.GRAY);
 
         replay.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
-            seconds =40;
+            seconds =60;
             scorecount=0;
             stackPane.getChildren().setAll(setBoardAndMoles());
         });
@@ -406,8 +416,8 @@ public class whackamole extends Application {
 
         timeline.getKeyFrames().addAll(appearFrame, disappearFrame);
         timeli.getKeyFrames().addAll(countdown);
-        timeli.play();
         timeline.play();
+        timeli.play();
         }
 
 private void mainmenue(ImageView img , VBox vb){
