@@ -31,12 +31,15 @@ public class whackamole extends Application {
     private StackPane stackPane;
     private static final int BOARD_SIZE = 4; // Adjust this to change the board size
     private int scorecount; // Adjust this to change the cell size
-    private int seconds = 0;
+    private int seconds = 60;
 
-    private static final int MOLE_APPEAR_TIME = 1000; // Adjust this to change mole appearance time (in milliseconds)
-    private static int MOLE_DISAPPEAR_TIME = 1000; // Adjust this to change mole disappearance time (in milliseconds)
+    private int MOLE_APPEAR_TIME = 1000; // Adjust this to change mole appearance time (in milliseconds)
+    private int MOLE_DISAPPEAR_TIME = 1000; // Adjust this to change mole disappearance time (in milliseconds)
 
     private Timeline timeline = new Timeline();
+    private Text won = new Text("Congratulations!, You Won!");
+    private Text lost = new Text("Sorry!, You Lost");
+    private Button replay = new Button("Play Again");
 
     private ImageView [][] moles;
     private Rectangle inrect = new Rectangle();
@@ -45,7 +48,7 @@ public class whackamole extends Application {
     Random ran;
 
     private VBox root3;
-    private Label timerLabel;
+    private Text tim =new Text("Time Left: " + seconds + " Seconds");
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
@@ -59,6 +62,9 @@ public class whackamole extends Application {
         imageView.setPreserveRatio(true);
         imageView.fitWidthProperty().bind(primaryStage.widthProperty());
         imageView.fitHeightProperty().bind(primaryStage.heightProperty());
+
+
+
 
         Button backbButton =new Button("Back");
         backbButton.setPrefWidth(200);
@@ -138,7 +144,7 @@ public class whackamole extends Application {
 
             VBox.setMargin(backbButto, new Insets(0, 0, 20, 0));
             root3.getChildren().setAll(easy, medium, hard, backbButto);
-            stackPane.getChildren().setAll(imageView, root3);
+            stackPane.getChildren().setAll(imageView, root3); 
         
         });
 
@@ -149,19 +155,27 @@ public class whackamole extends Application {
 
 
         easy.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            
+            MOLE_APPEAR_TIME = 800;
+            MOLE_DISAPPEAR_TIME = 800; 
             stackPane.getChildren().setAll(setBoardAndMoles()); // Pass board size as argument
+            startMoleAnimation();
         });
 
         medium.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            stackPane.getChildren().setAll(setBoardAndMoles()); // Pass board size as argument
+            MOLE_APPEAR_TIME = 740;
+            MOLE_DISAPPEAR_TIME = 740; 
+            stackPane.getChildren().setAll(setBoardAndMoles());// Pass board size as argument
+            startMoleAnimation(); 
         });
 
         hard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            stackPane.getChildren().setAll(setBoardAndMoles()); // Pass board size as argument
+            MOLE_APPEAR_TIME = 500;
+            MOLE_DISAPPEAR_TIME = 500; // Pass board size as argument
+            stackPane.getChildren().setAll(setBoardAndMoles()); 
+            startMoleAnimation();
         });
 
-
-        startMoleAnimation();
         scene = new Scene(stackPane);
         scene.getRoot().setStyle("-fx-background-color: brown;");
         primaryStage.setTitle("Whack a Mole");
@@ -234,15 +248,16 @@ public class whackamole extends Application {
         backbBut.setPrefHeight(50);
         backbBut.setStyle("-fx-font-size: 20px; -fx-background-color: #873260; -fx-text-fill: #ffffff; -fx-effect:dropshadow(one-pass-box,black,10,10.10,2,0);");
         
-        if(root3 == null){
-
-            System.out.println("nothing");
-        }
 
         backbBut.setOnMouseClicked( event -> {
             Difficultymenue(imageView, root3);
+            scorecount = 0;
+            seconds = 20;
         });
 
+        VBox bom = new VBox(tim);
+        bom.setAlignment(Pos.TOP_CENTER);
+        bom.setSpacing(30);
 
         AnchorPane scorePane = new AnchorPane();
         AnchorPane scorePa= new AnchorPane();
@@ -255,21 +270,26 @@ public class whackamole extends Application {
         scoreB.setSpacing(10);
         
         // Set top anchor for the HBox to position it at the top
-        AnchorPane.setTopAnchor(scoreBox, 40.0);
+        AnchorPane.setTopAnchor(scoreBox, 70.0);
         
         
         // Set left and right anchors for the HBox to stretch it horizontally
         AnchorPane.setLeftAnchor(scoreBox, 0.0);
         AnchorPane.setRightAnchor(scoreBox, 0.0);
+        AnchorPane.setTopAnchor(bom, 40.0);
+        
+        
+        // Set left and right anchors for the HBox to stretch it horizontally
+        AnchorPane.setLeftAnchor(bom, 0.0);
+        AnchorPane.setRightAnchor(bom, 0.0);
 
         AnchorPane.setTopAnchor(scoreB, 40.0);
     
         // Set left and right anchors for the HBox to stretch it horizontally
         AnchorPane.setLeftAnchor(scoreB, 20.0);
         AnchorPane.setRightAnchor(scoreB, 0.0);
-        
 
-        scorePane.getChildren().add(scoreBox);
+        scorePane.getChildren().addAll(scoreBox ,bom);
         scorePa.getChildren().add(scoreB);
         Image moleImage = img; 
         // Image hammerImage = new Image("mole.png"); // Replace "hammer.png" with your actual hammer image file
@@ -315,14 +335,35 @@ public class whackamole extends Application {
             vbox.setAlignment(Pos.CENTER);
         
             stackPane.getChildren().addAll(scorePane, vbox);
+
     
         return stackPane;
     }
     
 
     private void startMoleAnimation() {
-
+        Timeline timeli = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
+        timeli.setCycleCount(Timeline.INDEFINITE);
+
+        replay.setPrefWidth(200);
+        replay.setPrefHeight(50);
+        replay.setStyle("-fx-font-size: 20px; -fx-background-color: #ff0000; -fx-text-fill: #ffffff; -fx-effect:dropshadow(one-pass-box,black,10,10.10,2,0);");
+        Button replay = new Button("Play Again");
+        replay.setPrefWidth(200);
+        replay.setPrefHeight(50);
+        replay.setStyle("-fx-font-size: 20px; -fx-background-color: #ff0000; -fx-text-fill: #ffffff; -fx-effect:dropshadow(one-pass-box,black,10,10.10,2,0);");
+        won.setFont(Font.font("Arial", 55)); // Set the font and size
+        won.setFill(Color.GRAY);
+
+        lost.setFont(Font.font("Arial", 55)); // Set the font and size
+        lost.setFill(Color.GRAY);
+
+        replay.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
+            seconds =40;
+            scorecount=0;
+            stackPane.getChildren().setAll(setBoardAndMoles());
+        });
 
         KeyFrame appearFrame = new KeyFrame(Duration.millis(MOLE_APPEAR_TIME), event -> {
             int randomRow = ran.nextInt(BOARD_SIZE);
@@ -334,9 +375,23 @@ public class whackamole extends Application {
         });
         
            KeyFrame countdown = new KeyFrame(Duration.seconds(1), event -> {
-            timerLabel = new Label("0 seconds");
-                seconds++;
-                timerLabel.setText(seconds + " seconds");
+                seconds--;
+                tim.setText("Time Left: " + seconds + " Seconds");
+
+                if(seconds == 0 && scorecount < 20){
+                    VBox np = new VBox(lost, replay);
+                    np.setAlignment(Pos.CENTER);
+                    np.setSpacing(30);
+                    stackPane.getChildren().setAll(np);
+                }
+        
+                if(scorecount == 20){
+                    VBox np = new VBox(won, replay);
+                    np.setAlignment(Pos.CENTER);
+                    np.setSpacing(30);
+                    stackPane.getChildren().setAll(np);
+
+                }
             });
 
         KeyFrame disappearFrame = new KeyFrame(Duration.millis(MOLE_APPEAR_TIME + MOLE_DISAPPEAR_TIME), event -> {
@@ -349,7 +404,9 @@ public class whackamole extends Application {
 
 
 
-        timeline.getKeyFrames().addAll(countdown, appearFrame, disappearFrame);
+        timeline.getKeyFrames().addAll(appearFrame, disappearFrame);
+        timeli.getKeyFrames().addAll(countdown);
+        timeli.play();
         timeline.play();
         }
 
