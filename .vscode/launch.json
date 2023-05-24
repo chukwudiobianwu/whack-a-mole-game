@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BurgerClickApp",
+            "request": "launch",
+            "mainClass": "BurgerClickApp",
+            "projectName": "whack-a-mole-game_1e011953"
+        },
+        {
+            "type": "java",
             "name": "ThreeDCircleExample",
             "request": "launch",
             "mainClass": "ThreeDCircleExample",
